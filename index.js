@@ -3,13 +3,11 @@ const inquirer = require('inquirer');
 let sql;
 
 const db = new sqlite3.Database('./company.db',sqlite3.OPEN_READWRITE, (err) => {
-    if (err) {
-        console.error(err.message);
-    }
+    if (err) { console.error(err.message); }
     console.log('Connected to the company database.');
 });
 
-console.log('\n\nWelcome to the Employee Tracker\n\n===============================');
+console.log('\n\nWelcome to the Employee Tracker App:\n\n==================================');
 init();
 
 function init() {
@@ -65,8 +63,7 @@ function init() {
     })
 }
 
-
-//Departments functions
+//DEPARTMENT FUNCTIONS
 // =============
 // Add departments
 
@@ -92,13 +89,13 @@ function addDepartment() {
     });
 }
 
-function insertDepartment(newDepot) {
+function insertDepartment(newDepartment) {
     let query = `INSERT INTO department (name) VALUES(?)`;
-    db.run(query, newDepot, function(err) {
+    db.run(query, newDepartment, function(err) {
         if (err) {
             console.log(err.message);
         }
-        console.log(`Added ${newDepot} to departments`);
+        console.log(`Added ${newDepartment} to departments`);
         init();
     });
 }
@@ -114,7 +111,6 @@ function getDepartmentsAsync() {
         })
     });
 }
-
 // View departments
 function viewDepartments() {
     db.all(`SELECT * FROM department`,[], (err, data) => {
@@ -125,7 +121,6 @@ function viewDepartments() {
         init();
     })
 }
-
 // Delete departments
 function deleteDepartments() {
     const array = [];
@@ -161,7 +156,6 @@ function deleteDepartment(departmentId) {
         init();
     });
 }
-
 // View department budget
 function viewDepartmentBudget() {
     db.all(`SELECT department.name AS 'Department', SUM(role.salary) AS 'Budget' FROM employee LEFT JOIN role ON employee.role_id = role.id LEFT JOIN department ON role.department_id = department.id GROUP BY department.name`,[], (err, data) => {
@@ -173,12 +167,7 @@ function viewDepartmentBudget() {
     })
 }
 
-
-// =============
-
-
-
-//Roles functions
+//ROLES FUNCTIONS
 // =============
 // Add Roles
 // title, salary, department
@@ -235,9 +224,7 @@ async function addRole() {
     .catch(err => {
         console.log(err);
     });
-    console.log("array",array)
 }
-
 
 function insertRole(title, salary, department_id) {
     let query = `INSERT INTO role (title, salary, department_id) VALUES(?, ?, ?)`;
@@ -249,7 +236,6 @@ function insertRole(title, salary, department_id) {
         init();
     });
 }
-
 // View Roles
 function viewRoles() {
     db.all(`SELECT * FROM role`,[], (err, data) => {
@@ -260,7 +246,6 @@ function viewRoles() {
         init();
     })
 }
-
 // Delete Roles
 function deleteRoles() {
     const arrayR = [];
@@ -302,12 +287,8 @@ function deleteRole(roleId) {
 }
 
 
-//===================================================================================================
-
-
-
 //==================
-//employees functions
+//EMPLOYEE FUNCTIONS
 
 function getRolesAsync() {
     return new Promise((resolve, reject) => {
@@ -330,7 +311,6 @@ function getEmployeesAsync() {
         });
     });
 }
-
 
 async function addEmployee() {
     const arrayR = [];
@@ -388,7 +368,6 @@ async function addEmployee() {
     .catch(err => {
         console.log(err);
     });
-    console.log("array",arrayR)
 }
 
 function insertEmployee(first_name, last_name, role_id) {
@@ -401,7 +380,6 @@ function insertEmployee(first_name, last_name, role_id) {
         init();
     });
 }
-
 // View Employees
 function viewEmployees() {
     db.all(`SELECT * FROM employee`,[], (err, data) => {
@@ -412,7 +390,6 @@ function viewEmployees() {
         init();
     })
 }
-
 // Delete Employees
 function deleteEmployees() {
     const arrayE = [];
@@ -452,7 +429,6 @@ function deleteEmployee(employeeId) {
         init();
     });
 }
-
 // Update Employee
 function updateEmployee() {
     const arrayE = [];
@@ -520,47 +496,3 @@ function updateEmployeeRole2(employeeId, roleId) {
         init();
     });
 }
-
-// =============
-// =============
-// =============
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// ===============
-// Async Functions
-// ===============
-
-/* function getRolesAsync() {
-    return new Promise((resolve, reject) => {
-        connection.query(`SELECT id, title AS 'role' FROM roles ORDER BY role`, (err, data) => {
-            if (err) {
-                return reject(err);
-            }
-            return resolve(data);
-        });
-    });
-}
-
-function getEmployeesAsync() {
-    return new Promise((resolve, reject) => {
-        connection.query(`SELECT id, last_name FROM employees ORDER BY last_name`, (err, data) => {
-            if (err) {
-                return reject(err);
-            }
-            return resolve(data);
-        });
-    });
-} */
-

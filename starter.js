@@ -2,9 +2,7 @@
 // npm install
 // Initialize the database
 //first you need create a new db file with the nasme company.db
-
 const sqlite3 = require('sqlite3').verbose();
-
 // open the database
 let db = new sqlite3.Database('./company.db', sqlite3.OPEN_READWRITE, (err) => {
     if (err) {
@@ -12,20 +10,17 @@ let db = new sqlite3.Database('./company.db', sqlite3.OPEN_READWRITE, (err) => {
     }
     console.log('Connected to the company database.');
     });
-
 //CREATE THE TABLES SCHEMA
 /* CREATE TABLE IF NOT EXISTS department (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name VARCHAR(30) NOT NULL
   );
-  
   CREATE TABLE IF NOT EXISTS role (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     title VARCHAR(30) NOT NULL,
     salary DECIMAL(10,2) NOT NULL,
     department_id INTEGER NOT NULL REFERENCES department(id)
   );
-  
   CREATE TABLE IF NOT EXISTS employee (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     first_name VARCHAR(30) NOT NULL,
